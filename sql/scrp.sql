@@ -51,6 +51,6 @@ INSERT INTO Batiment (BatID, NomBat,GestioLog, MdpGestio) VALUES
 ('C', 'Recherche', 'gestBatC','passBatC' ),
 ('E', 'R&T', 'gestBatE','passBatE' );
 
--- isertion de log mdp pour admin
+-- Insertion de log mdp pour admin
 INSERT INTO Administration (Login, Mdp) VALUES 
 ('admin', 'admin');
