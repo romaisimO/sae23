@@ -8,6 +8,9 @@
     <meta name="author" content="DSM">
     <meta name="description" content="SAE 23">
     <meta name="keywords" content="SAE 23">
+    <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="./styles/rwd.css" />
+    <link rel="stylesheet" href="./styles/style2.css" />
 </head>
 
 <body>
