@@ -1,84 +1,83 @@
 <?php
 include 'config.php';
 
-session_start(); // Start the session
+session_start(); // Démarrer la session // Start the session
 
 if (isset($_SESSION['login'])) {
-    // User is logged in
+    // L'utilisateur est connecté // User is logged in
     $login = $_SESSION['login'];
 } else {
-    // User is not logged in
-    // Redirect to the login page
+    // L'utilisateur n'est pas connecté // User is not logged in
+    // Rediriger vers la page de connexion // Redirect to the login page
     header('Location: connexion.php');
-    exit(); // Make sure to exit after redirect
+    exit(); // S'assurer de sortir après la redirection // Make sure to exit after redirect
 }
 
-// Connect to the database
+// Se connecter à la base de données // Connect to the database
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 if (!$conn) {
-    // Display an error message if the database connection fails
+    // Afficher un message d'erreur si la connexion à la base de données échoue // Display an error message if the database connection fails
     die("La connexion à la base de données a échoué : " . mysqli_connect_error());
 }
 
-// Check if the 'ajouter_capteur' form has been submitted
+// Vérifier si le formulaire 'ajouter_capteur' a été soumis // Check if the 'ajouter_capteur' form has been submitted
 if (isset($_POST['ajouter_capteur'])) {
-    // Retrieve form data
+    // Récupérer les données du formulaire // Retrieve form data
     $NomCapteur = $_POST['NomCapteur'];
     $TypeCapteur = $_POST['TypeCapteur'];
     $Unite = $_POST['Unite'];
     $BatID = $_POST['BatID'];
     $NomSalle = $_POST['NomSalle'];
 
-    // Check if the specified 'BatID' exists in the 'Batiment' table
+    // Vérifier si le 'BatID' spécifié existe dans la table 'Batiment' // Check if the specified 'BatID' exists in the 'Batiment' table
     $sql_check_batiment = "SELECT * FROM Batiment WHERE BatID = '$BatID'";
     $result_check_batiment = mysqli_query($conn, $sql_check_batiment);
     if (mysqli_num_rows($result_check_batiment) > 0) {
-        // Insert the new sensor data into the 'Capteur' table
+        // Insérer les nouvelles données du capteur dans la table 'Capteur' // Insert the new sensor data into the 'Capteur' table
         $sql = "INSERT INTO Capteur (NomCapteur, TypeCapteur, Unite, NomSalle) VALUES ('$NomCapteur', '$TypeCapteur', '$Unite', '$NomSalle')";
         if (mysqli_query($conn, $sql)) {
-            // Display success message if the sensor is successfully added
+            // Afficher un message de succès si le capteur est ajouté avec succès // Display success message if the sensor is successfully added
             echo "Le capteur a été ajouté avec succès.";
         } else {
-            // Display error message if there is an issue with adding the sensor
+            // Afficher un message d'erreur en cas de problème lors de l'ajout du capteur // Display error message if there is an issue with adding the sensor
             echo "Erreur lors de l'ajout du capteur : " . mysqli_error($conn);
         }
     } else {
-        // Display error message if the specified 'BatID' does not exist
+        // Afficher un message d'erreur si le 'BatID' spécifié n'existe pas // Display error message if the specified 'BatID' does not exist
         echo "Le bâtiment avec l'ID $BatID n'existe pas. Veuillez ajouter d'abord le bâtiment.";
     }
 }
 
-// Check if the 'supprimer_capteur' form has been submitted
+// Vérifier si le formulaire 'supprimer_capteur' a été soumis // Check if the 'supprimer_capteur' form has been submitted
 if (isset($_POST['supprimer_capteur'])) {
-    // Retrieve form data
+    // Récupérer les données du formulaire // Retrieve form data
     $NomCapteur = $_POST['NomCapteur'];
 
-    // Delete the sensor measurements associated with the specified 'NomCapteur'
+    // Supprimer les mesures du capteur associées au 'NomCapteur' spécifié // Delete the sensor measurements associated with the specified 'NomCapteur'
     $sql_delete_mesures = "DELETE FROM Mesure WHERE NomCapteur = '$NomCapteur'";
     if (mysqli_query($conn, $sql_delete_mesures)) {
-        // Delete the sensor from the 'Capteur' table
+        // Supprimer le capteur de la table 'Capteur' // Delete the sensor from the 'Capteur' table
         $sql_delete_capteur = "DELETE FROM Capteur WHERE NomCapteur = '$NomCapteur'";
         if (mysqli_query($conn, $sql_delete_capteur)) {
-            // Display success message if the sensor is successfully deleted
+            // Afficher un message de succès si le capteur est supprimé avec succès // Display success message if the sensor is successfully deleted
             echo "Le capteur a été supprimé avec succès.";
         } else {
-            // Display error message if there is an issue with deleting the sensor
+            // Afficher un message d'erreur en cas de problème lors de la suppression du capteur // Display error message if there is an issue with deleting the sensor
             echo "Erreur lors de la suppression du capteur : " . mysqli_error($conn);
         }
     } else {
-        // Display error message if there is an issue with deleting the associated measurements
+        // Afficher un message d'erreur en cas de problème lors de la suppression des mesures associées // Display error message if there is an issue with deleting the associated measurements
         echo "Erreur lors de la suppression des mesures : " . mysqli_error($conn);
     }
 }
 
-// Select all sensors from the 'Capteur' table
+// Sélectionner tous les capteurs de la table 'Capteur' // Select all sensors from the 'Capteur' table
 $sql_select_capteurs = "SELECT NomCapteur, TypeCapteur, NomSalle FROM Capteur";
 $result_capteurs = mysqli_query($conn, $sql_select_capteurs);
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
     <meta charset="UTF-8">
     <title>Ajouter/Supprimer des capteurs</title>
@@ -90,7 +89,6 @@ $result_capteurs = mysqli_query($conn, $sql_select_capteurs);
     <link rel="stylesheet" href="./styles/rwd.css" />
     <link rel="stylesheet" href="./styles/style2.css" />
 </head>
-
 <body>
     <header>
         <div class="nav">
@@ -113,16 +111,16 @@ $result_capteurs = mysqli_query($conn, $sql_select_capteurs);
         </div>
     </header>
 
-    <!-- Display the title -->
+    <!-- Afficher le titre // Display the title -->
     <h1>Ajouter/Supprimer des capteurs</h1>
 
-    <!-- Section for adding a sensor -->
+    <!-- Section pour ajouter un capteur // Section for adding a sensor -->
     <section class="bulle">
         <h2>Ajouter un capteur</h2>
 
-        <!-- Form for adding a sensor -->
+        <!-- Formulaire pour ajouter un capteur // Form for adding a sensor -->
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-            <!-- Input fields for sensor details -->
+            <!-- Champs de saisie pour les détails du capteur // Input fields for sensor details -->
             <label for="NomCapteur">Nom Capteur:</label>
             <input type="text" id="NomCapteur" name="NomCapteur" required><br>
 
@@ -138,19 +136,19 @@ $result_capteurs = mysqli_query($conn, $sql_select_capteurs);
             <label for="NomSalle">Nom Salle:</label>
             <input type="text" id="NomSalle" name="NomSalle" required><br>
 
-            <!-- Submit button for adding the sensor -->
+            <!-- Bouton de soumission pour ajouter le capteur // Submit button for adding the sensor -->
             <input type="submit" name="ajouter_capteur" value="Ajouter Capteur">
         </form>
     </section>
 
-    <!-- Section for deleting a sensor -->
+    <!-- Section pour supprimer un capteur // Section for deleting a sensor -->
     <section class="bulle">
         <h2>Supprimer un capteur</h2>
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
-            <!-- Select dropdown for choosing a sensor to delete -->
+            <!-- Liste déroulante pour choisir un capteur à supprimer // Select dropdown for choosing a sensor to delete -->
             <label for="NomCapteur_supprimer">Sélectionnez un capteur:</label>
             <select class="bouton_selec" id="NomCapteur_supprimer" name="NomCapteur" required>
-                <!-- Display options for each sensor retrieved from the database -->
+                <!-- Afficher les options pour chaque capteur récupéré de la base de données // Display options for each sensor retrieved from the database -->
                 <?php
                 while ($row = mysqli_fetch_assoc($result_capteurs)) {
                     echo "<option value='" . $row['NomCapteur'] . "'>" . $row['NomCapteur'] . " - " . $row['NomSalle'] . "</option>";
@@ -158,7 +156,7 @@ $result_capteurs = mysqli_query($conn, $sql_select_capteurs);
                 ?>
             </select><br>
 
-            <!-- Submit button for deleting the selected sensor -->
+            <!-- Bouton de soumission pour supprimer le capteur sélectionné // Submit button for deleting the selected sensor -->
             <input type="submit" name="supprimer_capteur" value="Supprimer Capteur"><br><br><br>
         </form>
     </section>
@@ -168,31 +166,24 @@ $result_capteurs = mysqli_query($conn, $sql_select_capteurs);
         <form method="post" action="">
             <label for="num_rows">Nombre de lignes à afficher:</label>
             <select name="num_rows" id="num_rows">
-                <option value="6" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 6) echo 'selected'; ?>>6
-                </option>
-                <option value="12"
-                    <?php if ((isset($_POST['num_rows']) && $_POST['num_rows'] == 12) || !isset($_POST['num_rows'])) echo 'selected'; ?>>
-                    12</option>
-                <option value="24" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 24) echo 'selected'; ?>>
-                    24</option>
-                <option value="48" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 48) echo 'selected'; ?>>
-                    48</option>
-                <option value="all"
-                    <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 'all') echo 'selected'; ?>>Tout
-                    afficher</option>
+                <option value="6" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 6) echo 'selected'; ?>>6</option>
+                <option value="12" <?php if ((isset($_POST['num_rows']) && $_POST['num_rows'] == 12) || !isset($_POST['num_rows'])) echo 'selected'; ?>>12</option>
+                <option value="24" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 24) echo 'selected'; ?>>24</option>
+                <option value="48" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 48) echo 'selected'; ?>>48</option>
+                <option value="all" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 'all') echo 'selected'; ?>>Tout afficher</option>
             </select>
             <input type="submit" value="Afficher">
         </form>
     </section>
 
     <section class="bulle">
-        <!-- Display the sensor data in a table -->
+        <!-- Afficher les données des capteurs dans un tableau // Display the sensor data in a table -->
         <table id="data-table">
             <?php
-            // Determine the number of rows to display
+            // Déterminer le nombre de lignes à afficher // Determine the number of rows to display
             $num_rows = isset($_POST['num_rows']) ? $_POST['num_rows'] : 12;
 
-            // Select sensor data from multiple tables and display it in a table format
+            // Sélectionner les données des capteurs à partir de plusieurs tables et les afficher sous forme de tableau // Select sensor data from multiple tables and display it in a table format
             $sql = "SELECT Batiment.NomBat AS Batiment, Salle.NomSalle AS Salle, Capteur.TypeCapteur AS Type, Capteur.Unite, Mesure.Date, Mesure.Horaire, Mesure.Valeur
                     FROM Capteur
                     JOIN Mesure ON Capteur.NomCapteur = Mesure.NomCapteur
@@ -204,12 +195,11 @@ $result_capteurs = mysqli_query($conn, $sql_select_capteurs);
                 $sql .= " LIMIT $num_rows";
             }
 
-            $result = $conn->query($sql);
+            $result = mysqli_query($conn, $sql);
 
-            if ($result->num_rows > 0) {
-                // Display table header row
+            if ($result && mysqli_num_rows($result) > 0) {
+                // Afficher la ligne d'en-tête du tableau // Display table header row
                 echo "<table>";
-                echo "<tr>";
                 echo "<tr>";
                 echo "<th>Batiment</th>";
                 echo "<th>Salle</th>";
@@ -218,23 +208,21 @@ $result_capteurs = mysqli_query($conn, $sql_select_capteurs);
                 echo "<th>Horaire</th>";
                 echo "<th>Valeur</th>";
                 echo "</tr>";
-               
 
-                // Display table rows with sensor data
-                while ($row = $result->fetch_assoc()) {
-                    
+                // Afficher les lignes du tableau avec les données des capteurs // Display table rows with sensor data
+                while ($row = mysqli_fetch_assoc($result)) {
                     echo "<tr>";
                     echo "<td>" . $row['Batiment'] . "</td>";
                     echo "<td>" . $row['Salle'] . "</td>";
                     echo "<td>" . $row['Type'] . "</td>";
                     echo "<td>" . $row['Date'] . "</td>";
                     echo "<td>" . $row['Horaire'] . "</td>";
-                    echo "<td>" . $row['Valeur'] . " " . $row['Unite'] . "</td>";  // Append unit to value
+                    echo "<td>" . $row['Valeur'] . " " . $row['Unite'] . "</td>";  // Ajouter l'unité à la valeur // Append unit to value
                     echo "</tr>";
                 }
-                echo "<table>";
+                echo "</table>";
             } else {
-                // Display a message if no data is available
+                // Afficher un message si aucune donnée n'est disponible // Display a message if no data is available
                 echo "<tr><td colspan='7'>No data available.</td></tr>";
             }
             ?>
@@ -242,5 +230,4 @@ $result_capteurs = mysqli_query($conn, $sql_select_capteurs);
     </section>
 
 </body>
-
 </html>
