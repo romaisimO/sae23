@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <title>SAE 23</title>
     <meta charset="utf-8">
@@ -8,10 +9,11 @@
     <meta name="description" content="SAE 23">
     <meta name="keywords" content="SAE 23">
 </head>
+
 <body>
-<section class="bulle">
-    <h2>Affichage des dernières mesures:</h2>
-    <?php
+    <section class="bulle">
+        <h2>Affichage des dernières mesures:</h2>
+        <?php
     include 'config.php';
 
     // SQL query to retrieve the latest measurements for each sensor
@@ -54,7 +56,27 @@
     // Close the database connection
     $conn->close();
     ?>
-</section>
+    </section>
+    <footer>
+        <aside id="last">
+            <p>Validation de la page HTML5 - CSS3</p>
 
+            <a href="https://validator.w3.org/nu/?doc=http%3A%2F%2F127.0.0.1%3A3000%2Findex.html#file" target="_blank">
+                <img class="image-responsive" src="./images/html5-validator-badge-blue.png" alt="HTML5 Valide !" />
+            </a>
+
+            <a href="https://validator.w3.org/nu/?doc=http%3A%2F%2F127.0.0.1%3A3000%2Findex.html#file" target="_blank">
+                <img class="image-responsive" src="http://jigsaw.w3.org/css-validator/images/vcss-blue"
+                    alt="CSS Valide !" />
+            </a>
+        </aside>
+
+        <ul class="IUT">
+            <li>IUT de Blagnac</li>
+            <li>Département Réseaux et Télécommunications</li>
+            <li><a href="mentions-légales.html">Mentions légales</a></li>
+        </ul>
+    </footer>
 </body>
+
 </html>
