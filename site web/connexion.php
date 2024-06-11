@@ -32,7 +32,6 @@
                     <li><a href="consultation.php" class="first">Consultation</a></li>
                     <li><a href="connexion.php">Connexion</a></li>
                     <li><a href="gestion_de_projet.html">Gestion de projet</a></li>
-                    <li><a href="mentions-légales.html">Mentions légales</a></li>
                 </ul>
             </nav>
         </div>
@@ -56,7 +55,7 @@
         <ul class="IUT">
             <li><a href="https://www.iut-blagnac.fr/fr/" target="_blank">IUT de Blagnac</a></li>
             <li>Département Réseaux et Télécommunications</li>
-            <li>BUT1</li>
+            <li><a href="mentions-légales.html">Mentions légales</a></li>
         </ul>
     </footer>
 
