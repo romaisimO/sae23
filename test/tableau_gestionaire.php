@@ -26,7 +26,8 @@ $num_rows_to_display = 12; // Défaut à 12 // Set default to 12
 $show_all = false;
 $date = '';
 $sensor = '';
-$hours = [];
+$start_hour = '';
+$end_hour = '';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Obtenir le nombre de lignes à afficher à partir du formulaire // Get the number of rows to display from the form input
@@ -38,25 +39,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     $date = $_POST['date'];
     $sensor = $_POST['sensor'];
-    $hours = isset($_POST['hours']) ? $_POST['hours'] : [];
+    $start_hour = $_POST['start_hour'];
+    $end_hour = $_POST['end_hour'];
 }
 
-// Sélectionner tous les capteurs pour le formulaire // Select all sensors for the form
-$sql_sensors = "SELECT NomCapteur FROM Capteur";
+// Sélectionner tous les capteurs pour le formulaire pour le gestionnaire connecté // Select all sensors for the form for the logged-in manager
+$sql_sensors = "SELECT Capteur.NomCapteur 
+                FROM Capteur
+                JOIN Salle ON Capteur.NomSalle = Salle.NomSalle
+                JOIN Batiment ON Salle.BatID = Batiment.BatID
+                WHERE Batiment.GestioLog = '$login'";
 $result_sensors = mysqli_query($conn, $sql_sensors);
 
 ?>
 
 <!DOCTYPE html>
 <html>
+
 <head>
-  <title>SAE 23</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="author" content="DSM" />
-  <meta name="description" content="SAE 23" />
-  <meta name="keywords" content="HTML, CSS, PHP" />
+    <title>SAE 23</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="DSM" />
+    <meta name="description" content="SAE 23" />
+    <meta name="keywords" content="HTML, CSS, PHP" />
 </head>
+
 <body>
     <h1>Données des capteurs</h1>
 
@@ -64,11 +72,18 @@ $result_sensors = mysqli_query($conn, $sql_sensors);
         <form method="post" action="">
             <label for="num_rows">Nombre de lignes à afficher:</label>
             <select name="num_rows" id="num_rows">
-                <option value="6" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 6) echo 'selected'; ?>>6</option>
-                <option value="12" <?php if ((isset($_POST['num_rows']) && $_POST['num_rows'] == 12) || !isset($_POST['num_rows'])) echo 'selected'; ?>>12</option>
-                <option value="24" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 24) echo 'selected'; ?>>24</option>
-                <option value="48" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 48) echo 'selected'; ?>>48</option>
-                <option value="all" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 'all') echo 'selected'; ?>>Tout afficher</option>
+                <option value="6" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 6) echo 'selected'; ?>>6
+                </option>
+                <option value="12"
+                    <?php if ((isset($_POST['num_rows']) && $_POST['num_rows'] == 12) || !isset($_POST['num_rows'])) echo 'selected'; ?>>
+                    12</option>
+                <option value="24" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 24) echo 'selected'; ?>>
+                    24</option>
+                <option value="48" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 48) echo 'selected'; ?>>
+                    48</option>
+                <option value="all"
+                    <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 'all') echo 'selected'; ?>>Tout
+                    afficher</option>
             </select><br>
 
             <label for="date">Sélectionner la date:</label>
@@ -84,15 +99,12 @@ $result_sensors = mysqli_query($conn, $sql_sensors);
                 ?>
             </select><br>
 
-            <label for="hours">Sélectionner les heures:</label>
-            <select name="hours[]" id="hours" multiple>
-                <?php
-                for ($i = 0; $i < 24; $i++) {
-                    $hour = str_pad($i, 2, '0', STR_PAD_LEFT) . ':00:00';
-                    echo "<option value='$hour'" . (in_array($hour, $hours) ? ' selected' : '') . ">$hour</option>";
-                }
-                ?>
-            </select><br>
+            <label for="start_hour">Sélectionner l'heure de début:</label>
+            <input type="time" id="start_hour" name="start_hour"
+                value="<?php echo htmlspecialchars($start_hour); ?>"><br>
+
+            <label for="end_hour">Sélectionner l'heure de fin:</label>
+            <input type="time" id="end_hour" name="end_hour" value="<?php echo htmlspecialchars($end_hour); ?>"><br>
 
             <input type="submit" value="Afficher">
         </form>
@@ -119,12 +131,9 @@ $result_sensors = mysqli_query($conn, $sql_sensors);
                 $sql .= " AND Capteur.NomCapteur = '$sensor'";
             }
 
-            // Ajouter la condition des heures si elles sont définies // Add hour condition if set
-            if (!empty($hours)) {
-                $hour_conditions = array_map(function($hour) {
-                    return "Mesure.Horaire = '$hour'";
-                }, $hours);
-                $sql .= " AND (" . implode(' OR ', $hour_conditions) . ")";
+            // Ajouter la condition de plage d'heures si définie // Add hour range condition if set
+            if (!empty($start_hour) && !empty($end_hour)) {
+                $sql .= " AND Mesure.Horaire BETWEEN '$start_hour' AND '$end_hour'";
             }
 
             // Appliquer la limite si toutes les lignes ne sont pas affichées // Apply the limit if not showing all rows
@@ -213,4 +222,5 @@ $result_sensors = mysqli_query($conn, $sql_sensors);
         ?>
     </section>
 </body>
+
 </html>
