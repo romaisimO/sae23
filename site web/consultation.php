@@ -8,15 +8,39 @@
     <meta name="author" content="DSM">
     <meta name="description" content="SAE 23">
     <meta name="keywords" content="SAE 23">
-    <link rel="stylesheet" href="/styles/style.css" />
-    <link rel="stylesheet" href="/styles/rwd.css" />
-    <link rel="stylesheet" href="/styles/style2.css" />
+    <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="./styles/rwd.css" />
+    <link rel="stylesheet" href="./styles/style2.css" />
 </head>
 
 <body>
-    <section class="bulle">
-        <h2>Affichage des dernières mesures:</h2>
-        <?php
+
+    <header>
+
+        <div class="nav">
+            <input type="checkbox" id="nav-check">
+            <div class="nav-btn">
+                <label for="nav-check">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </label>
+            </div>
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="index.html" class="first">Accueil</a></li>
+                    <li><a href="consultation.php" class="first">Consultation</a></li>
+                    <li><a href="connexion.php">Connexion</a></li>
+                    <li><a href="gestion_de_projet.html">Gestion de projet</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <body>
+        <section class="bulle">
+            <h2>Affichage des dernières mesures:</h2>
+            <?php
         include 'config.php';
 
         // Connect to the database using procedural style
@@ -74,27 +98,29 @@
         // Close the database connection
         mysqli_close($conn);
         ?>
-    </section>
-    <footer>
-        <aside id="last">
-            <p>Validation de la page HTML5 - CSS3</p>
+        </section>
+        <footer>
+            <aside id="last">
+                <p>Validation de la page HTML5 - CSS3</p>
 
-            <a href="https://validator.w3.org/nu/?doc=http%3A%2F%2F127.0.0.1%3A3000%2Findex.html#file" target="_blank">
-                <img class="image-responsive" src="./images/html5-validator-badge-blue.png" alt="HTML5 Valide !" />
-            </a>
+                <a href="https://validator.w3.org/nu/?doc=http%3A%2F%2F127.0.0.1%3A3000%2Findex.html#file"
+                    target="_blank">
+                    <img class="image-responsive" src="./images/html5-validator-badge-blue.png" alt="HTML5 Valide !" />
+                </a>
 
-            <a href="https://validator.w3.org/nu/?doc=http%3A%2F%2F127.0.0.1%3A3000%2Findex.html#file" target="_blank">
-                <img class="image-responsive" src="http://jigsaw.w3.org/css-validator/images/vcss-blue"
-                    alt="CSS Valide !" />
-            </a>
-        </aside>
+                <a href="https://validator.w3.org/nu/?doc=http%3A%2F%2F127.0.0.1%3A3000%2Findex.html#file"
+                    target="_blank">
+                    <img class="image-responsive" src="http://jigsaw.w3.org/css-validator/images/vcss-blue"
+                        alt="CSS Valide !" />
+                </a>
+            </aside>
 
-        <ul class="IUT">
-            <li>IUT de Blagnac</li>
-            <li>Département Réseaux et Télécommunications</li>
-            <li><a href="mentions-légales.html">Mentions légales</a></li>
-        </ul>
-    </footer>
-</body>
+            <ul class="IUT">
+                <li>IUT de Blagnac</li>
+                <li>Département Réseaux et Télécommunications</li>
+                <li><a href="mentions-légales.html">Mentions légales</a></li>
+            </ul>
+        </footer>
+    </body>
 
 </html>
