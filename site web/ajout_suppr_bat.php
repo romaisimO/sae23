@@ -1,26 +1,26 @@
 <?php
 include 'config.php';
 
-session_start(); // Start the session
+session_start(); // Démarrer la session // Start the session
 
 if (isset($_SESSION['login'])) {
-    // User is logged in
+    // L'utilisateur est connecté // User is logged in
     $login = $_SESSION['login'];
 } else {
-    // User is not logged in
-    // Redirect to the login page
+    // L'utilisateur n'est pas connecté // User is not logged in
+    // Rediriger vers la page de connexion // Redirect to the login page
     header('Location: connexion.php');
-    exit(); // Make sure to exit after redirect
+    exit(); // S'assurer de sortir après la redirection // Make sure to exit after redirect
 }
 
-// Connect to the database
+// Se connecter à la base de données // Connect to the database
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 if (!$conn) {
-    // Display an error message if the database connection fails
+    // Afficher un message d'erreur si la connexion à la base de données échoue // Display an error message if the database connection fails
     die("La connexion à la base de données a échoué : " . mysqli_connect_error());
 }
 
-// Handling the building addition form
+// Gestion du formulaire d'ajout de bâtiment // Handling the building addition form
 if (isset($_POST['ajouter_batiment'])) {
     $BatID = $_POST['BatID'];
     $NomBat = $_POST['NomBat'];
@@ -29,33 +29,33 @@ if (isset($_POST['ajouter_batiment'])) {
 
     $sql = "INSERT INTO Batiment (BatID, NomBat, GestioLog, MdpGestio) VALUES ('$BatID', '$NomBat', '$GestioLog', '$MdpGestio')";
     if (mysqli_query($conn, $sql)) {
-        echo "Le bâtiment a été ajouté avec succès.";
+        echo "Le bâtiment a été ajouté avec succès."; // The building was added successfully.
     } else {
-        echo "Erreur lors de l'ajout du bâtiment : " . mysqli_error($conn);
+        echo "Erreur lors de l'ajout du bâtiment : " . mysqli_error($conn); // Error adding the building
     }
 }
 
-// Handling the building deletion form
+// Gestion du formulaire de suppression de bâtiment // Handling the building deletion form
 if (isset($_POST['supprimer_batiment'])) {
     $BatID = $_POST['BatID'];
 
-    // Check if the building contains sensors before deleting it
+    // Vérifier si le bâtiment contient des capteurs avant de le supprimer // Check if the building contains sensors before deleting it
     $sql_check_capteurs = "SELECT * FROM Capteur WHERE NomSalle IN (SELECT NomSalle FROM Salle WHERE BatID = '$BatID')";
     $result_check_capteurs = mysqli_query($conn, $sql_check_capteurs);
     if (mysqli_num_rows($result_check_capteurs) > 0) {
-        echo "Le bâtiment avec l'ID $BatID contient des capteurs. Veuillez supprimer d'abord les capteurs.";
+        echo "Le bâtiment avec l'ID $BatID contient des capteurs. Veuillez supprimer d'abord les capteurs."; // The building with ID $BatID contains sensors. Please delete the sensors first.
     } else {
-        // Delete the building
+        // Supprimer le bâtiment // Delete the building
         $sql_delete_batiment = "DELETE FROM Batiment WHERE BatID = '$BatID'";
         if (mysqli_query($conn, $sql_delete_batiment)) {
-            echo "Le bâtiment a été supprimé avec succès.";
+            echo "Le bâtiment a été supprimé avec succès."; // The building was deleted successfully.
         } else {
-            echo "Erreur lors de la suppression du bâtiment : " . mysqli_error($conn);
+            echo "Erreur lors de la suppression du bâtiment : " . mysqli_error($conn); // Error deleting the building
         }
     }
 }
 
-// Handling the room addition form
+// Gestion du formulaire d'ajout de salle // Handling the room addition form
 if (isset($_POST['ajouter_salle'])) {
     $NomSalle = $_POST['NomSalle'];
     $TypeSalle = $_POST['TypeSalle'];
@@ -64,37 +64,37 @@ if (isset($_POST['ajouter_salle'])) {
 
     $sql = "INSERT INTO Salle (NomSalle, TypeSalle, Capacite, BatID) VALUES ('$NomSalle', '$TypeSalle', '$Capacite', '$BatID')";
     if (mysqli_query($conn, $sql)) {
-        echo "La salle a été ajoutée avec succès.";
+        echo "La salle a été ajoutée avec succès."; // The room was added successfully.
     } else {
-        echo "Erreur lors de l'ajout de la salle : " . mysqli_error($conn);
+        echo "Erreur lors de l'ajout de la salle : " . mysqli_error($conn); // Error adding the room
     }
 }
 
-// Handling the room deletion form
+// Gestion du formulaire de suppression de salle // Handling the room deletion form
 if (isset($_POST['supprimer_salle'])) {
     $NomSalle = $_POST['NomSalle'];
 
-    // Check if the room contains sensors before deleting it
+    // Vérifier si la salle contient des capteurs avant de la supprimer // Check if the room contains sensors before deleting it
     $sql_check_capteurs = "SELECT * FROM Capteur WHERE NomSalle = '$NomSalle'";
     $result_check_capteurs = mysqli_query($conn, $sql_check_capteurs);
     if (mysqli_num_rows($result_check_capteurs) > 0) {
-        echo "La salle avec le nom $NomSalle contient des capteurs. Veuillez supprimer d'abord les capteurs.";
+        echo "La salle avec le nom $NomSalle contient des capteurs. Veuillez supprimer d'abord les capteurs."; // The room with the name $NomSalle contains sensors. Please delete the sensors first.
     } else {
-        // Delete the room
+        // Supprimer la salle // Delete the room
         $sql_delete_salle = "DELETE FROM Salle WHERE NomSalle = '$NomSalle'";
         if (mysqli_query($conn, $sql_delete_salle)) {
-            echo "La salle a été supprimée avec succès.";
+            echo "La salle a été supprimée avec succès."; // The room was deleted successfully.
         } else {
-            echo "Erreur lors de la suppression de la salle : " . mysqli_error($conn);
+            echo "Erreur lors de la suppression de la salle : " . mysqli_error($conn); // Error deleting the room
         }
     }
 }
 
-// Retrieve the list of buildings for selection
+// Récupérer la liste des bâtiments pour la sélection // Retrieve the list of buildings for selection
 $sql_select_batiments = "SELECT BatID, NomBat FROM Batiment";
 $result_batiments = mysqli_query($conn, $sql_select_batiments);
 
-// Retrieve the list of rooms for selection
+// Récupérer la liste des salles pour la sélection // Retrieve the list of rooms for selection
 $sql_select_salles = "SELECT NomSalle, TypeSalle, Capacite, BatID FROM Salle";
 $result_salles = mysqli_query($conn, $sql_select_salles);
 
@@ -232,13 +232,13 @@ $result_salles = mysqli_query($conn, $sql_select_salles);
     </section>
 
     <section class="bulle">
-        <!-- Display the room data in a table -->
+        <!-- Afficher les données des salles dans un tableau // Display the room data in a table -->
         <table id="data-table">
             <?php
-            // Determine the number of rows to display
+            // Déterminer le nombre de lignes à afficher // Determine the number of rows to display
             $num_rows = isset($_POST['num_rows']) ? $_POST['num_rows'] : 12;
 
-            // Select room data from multiple tables and display it in a table format
+            // Sélectionner les données des salles à partir de plusieurs tables et les afficher sous forme de tableau // Select room data from multiple tables and display it in a table format
             $sql = "SELECT Batiment.NomBat AS Batiment, Salle.NomSalle AS Salle, Salle.TypeSalle AS Type, Salle.Capacite
                     FROM Salle
                     JOIN Batiment ON Salle.BatID = Batiment.BatID
@@ -248,19 +248,19 @@ $result_salles = mysqli_query($conn, $sql_select_salles);
                 $sql .= " LIMIT $num_rows";
             }
 
-            $result = $conn->query($sql);
+            $result = mysqli_query($conn, $sql);
 
-            if ($result && $result->num_rows > 0) {
-                // Display table header row
+            if ($result && mysqli_num_rows($result) > 0) {
+                // Afficher la ligne d'en-tête du tableau // Display table header row
                 echo "<table>";
                 echo "<tr>";
-                while ($fieldinfo = $result->fetch_field()) {
+                while ($fieldinfo = mysqli_fetch_field($result)) {
                     echo "<th>" . $fieldinfo->name . "</th>";
                 }
                 echo "</tr>";
 
-                // Display table rows with room data
-                while ($row = $result->fetch_assoc()) {
+                // Afficher les lignes du tableau avec les données des salles // Display table rows with room data
+                while ($row = mysqli_fetch_assoc($result)) {
                     echo "<tr>";
                     echo "<td>" . $row['Batiment'] . "</td>";
                     echo "<td>" . $row['Salle'] . "</td>";
@@ -268,9 +268,9 @@ $result_salles = mysqli_query($conn, $sql_select_salles);
                     echo "<td>" . $row['Capacite'] . "</td>";
                     echo "</tr>";
                 }
-                echo "<table>";
+                echo "</table>";
             } else {
-                // Display a message if no data is available
+                // Afficher un message si aucune donnée n'est disponible // Display a message if no data is available
                 echo "<tr><td colspan='4'>No data available.</td></tr>";
             }
             ?>
