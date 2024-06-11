@@ -88,7 +88,7 @@ $result_capteurs = mysqli_query($conn, $sql_select_capteurs);
     <meta name="keywords" content="HTML, CSS, Portfolio" />
     <link rel="stylesheet" href="./styles/style.css" />
     <link rel="stylesheet" href="./styles/rwd.css" />
-    <link rel="stylesheet" href="./styles/Hamburger.css" />
+    <link rel="stylesheet" href="./styles/style2.css" />
 </head>
 
 <body>

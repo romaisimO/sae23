@@ -110,6 +110,9 @@ $result_salles = mysqli_query($conn, $sql_select_salles);
     <meta name="author" content="DSM" />
     <meta name="description" content="SAE_23" />
     <meta name="keywords" content="HTML, CSS" />
+    <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="./styles/rwd.css" />
+    <link rel="stylesheet" href="./styles/style2.css" />
 </head>
 
 <body>
