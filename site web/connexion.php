@@ -39,14 +39,22 @@
     <section class="sujet">
         <h1> CONNEXION </h1>
         <section class="bulle">
+            <!-- Formulaire pour envoyer les informations de connexion à login.php -->
+            <!-- Form to send login information to login.php -->
             <form action="login.php" method="POST">
                 <p class="justify">
                     <strong>Utilisateurs</strong> <br> <br>
                 </p>
                 <label><b>Nom d'utilisateur</b></label><br>
+                <!-- Champ de texte pour le nom d'utilisateur -->
+                <!-- Text field for the username -->
                 <input type="text" placeholder="Entrer le nom d'utilisateur" name="login" required><br><br><br>
                 <label><b>Mot De Passe</b></label><br>
+                <!-- Champ de texte pour le mot de passe -->
+                <!-- Text field for the password -->
                 <input type="password" placeholder="Entrer le mot de passe" name="password" required><br><br><br>
+                <!-- Bouton de soumission pour envoyer le formulaire -->
+                <!-- Submit button to send the form -->
                 <button type="submit" class="btn btn-primary btn-block">Connexion</button>
             </form>
         </section>
