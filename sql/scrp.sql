@@ -1,8 +1,8 @@
--- Création de la base de données
+-- Creation of the database
 CREATE DATABASE IF NOT EXISTS sae23;
 USE sae23;
 
--- Création de la table Bâtiment
+-- Creation of the table Building
 CREATE TABLE Batiment (
     BatID VARCHAR(10) NOT NULL PRIMARY KEY,
     NomBat VARCHAR(20) NOT NULL,
@@ -10,7 +10,7 @@ CREATE TABLE Batiment (
     MdpGestio VARCHAR(50) NOT NULL
 );
 
--- Création de la table Salle
+-- Creation of the Salle table
 CREATE TABLE Salle (
     NomSalle VARCHAR(10) PRIMARY KEY,
     TypeSalle VARCHAR(10),
@@ -19,7 +19,7 @@ CREATE TABLE Salle (
     FOREIGN KEY (BatID) REFERENCES Batiment(BatID)
 );
 
--- Création de la table Capteur
+-- Creating the Sensor Table
 CREATE TABLE Capteur (
     NomCapteur VARCHAR(50) PRIMARY KEY,
     TypeCapteur VARCHAR(20),
@@ -28,7 +28,7 @@ CREATE TABLE Capteur (
     FOREIGN KEY (NomSalle) REFERENCES Salle(NomSalle)
 );
 
--- Création de la table Mesure
+-- Creation of the Measurement table
 CREATE TABLE Mesure (
     NomMesure INT AUTO_INCREMENT PRIMARY KEY,
     Date DATE,
@@ -38,19 +38,19 @@ CREATE TABLE Mesure (
     FOREIGN KEY (NomCapteur) REFERENCES Capteur(NomCapteur)
 );
 
--- Création de la table Administration
+-- Creation of the Administration table
 CREATE TABLE Administration (
     Login VARCHAR(50) PRIMARY KEY,
     Mdp VARCHAR(50) NOT NULL
 );
 
--- Insertion de login et mot de passe --
+-- Insert login and password --
 INSERT INTO Batiment (BatID, NomBat,GestioLog, MdpGestio) VALUES 
 ('A', 'Administratif', 'gestBatA','passBatA' ),
 ('B', 'INFO_GIM', 'gestBatB','passBatB' ),
 ('C', 'Recherche', 'gestBatC','passBatC' ),
 ('E', 'R&T', 'gestBatE','passBatE' );
 
--- Insertion de log mdp pour admin
+-- Insert log mdp for admin
 INSERT INTO Administration (Login, Mdp) VALUES 
 ('admin', 'admin');
