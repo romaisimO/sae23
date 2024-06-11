@@ -1,175 +1,175 @@
 * {
   box-sizing: border-box;
-  color: #333; /* Couleur du texte */
+  color: #333; /* Sets the text color for all elements to #333 */
 }
 
 html {
-  height: 100%;
+  height: 100%; /* Ensures the HTML element takes up the full height of the viewport */
 }
 
 aside a {
-  text-decoration: none;
+  text-decoration: none; /* Removes the underline from links inside <aside> elements */
 }
 
 aside img {
-  border: 0;
-  width: 88px;
-  height: 31px;
+  border: 0; /* Removes the border from images inside <aside> elements */
+  width: 88px; /* Sets the width of images to 88px */
+  height: 31px; /* Sets the height of images to 31px */
 }
 
 body {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; /* Police de caractère */
-  background: #f7f7f7; /* Couleur de fond */
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; /* Sets the font family for the body to "Helvetica Neue", falling back to Helvetica, Arial, and then sans-serif */
+  background: #f7f7f7; /* Sets the background color of the body to #f7f7f7 */
 }
 
 h1,
 h2 {
-  text-align: center;
+  text-align: center; /* Centers the text of h1 and h2 elements */
 }
 
 h1 {
-  font-size: 3rem; /* Taille de police */
+  font-size: 3rem; /* Sets the font size of h1 elements to 3rem */
 }
 
 h2 {
-  font-size: 1.5rem; /* Taille de police */
+  font-size: 1.5rem; /* Sets the font size of h2 elements to 1.5rem */
 }
 
 .bulle {
-  margin-top: 50px;
-  text-align: center;
-  border: solid;
-  margin-left: 200px;
-  margin-right: 200px;
-  background: #e5e5e5; /* Couleur de fond */
-  border-color: #ccc; /* Couleur de la bordure */
-  border-radius: 10px;
-  font-size: 1.3rem; /* Taille de police */
-  padding-bottom: 30px;
+  margin-top: 50px; /* Adds a top margin of 50px */
+  text-align: center; /* Centers the text */
+  border: solid; /* Applies a solid border */
+  margin-left: 200px; /* Adds a left margin of 200px */
+  margin-right: 200px; /* Adds a right margin of 200px */
+  background: #e5e5e5; /* Sets the background color to #e5e5e5 */
+  border-color: #ccc; /* Sets the border color to #ccc */
+  border-radius: 10px; /* Rounds the corners of the border with a radius of 10px */
+  font-size: 1.3rem; /* Sets the font size to 1.3rem */
+  padding-bottom: 30px; /* Adds a bottom padding of 30px */
 }
 
 section.sujet {
-  margin-bottom: 200px;
+  margin-bottom: 200px; /* Adds a bottom margin of 200px */
 }
 
 select,
 input,
 button {
-  color: #333; /* Couleur du texte */
+  color: #333; /* Sets the text color for select, input, and button elements to #333 */
 }
 
 .IUT li {
-  display: inline;
-  padding: 10px;
+  display: inline; /* Displays list items as inline elements */
+  padding: 10px; /* Adds padding of 10px to each list item */
 }
 
 strong {
-  font-weight: bold; /* Gras */
-  text-decoration: underline;
-  font-size: 1.6rem; /* Taille de police */
+  font-weight: bold; /* Makes the text bold */
+  text-decoration: underline; /* Underlines the text */
+  font-size: 1.6rem; /* Sets the font size to 1.6rem */
 }
 
 .justify {
-  text-align: justify;
-  margin-left: 20px;
-  margin-right: 20px;
+  text-align: justify; /* Justifies the text */
+  margin-left: 20px; /* Adds a left margin of 20px */
+  margin-right: 20px; /* Adds a right margin of 20px */
 }
 
 table {
-  border: solid #ccc; /* Couleur de la bordure */
-  text-align: center;
+  border: solid #ccc; /* Sets a solid border with color #ccc */
+  text-align: center; /* Centers the text in the table */
 }
 
 th {
-  font-family: monospace;
-  border: thin solid #999; /* Couleur de la bordure */
-  width: 50%;
-  padding: 15px;
-  background-color: #f2f2f2; /* Couleur de fond */
-  font-size: 1.4rem; /* Taille de police */
+  font-family: monospace; /* Sets the font family to monospace */
+  border: thin solid #999; /* Sets a thin solid border with color #999 */
+  width: 50%; /* Sets the width of table headers to 50% */
+  padding: 15px; /* Adds padding of 15px */
+  background-color: #f2f2f2; /* Sets the background color to #f2f2f2 */
+  font-size: 1.4rem; /* Sets the font size to 1.4rem */
 }
 
 td {
-  border: thin solid #999; /* Couleur de la bordure */
-  padding: 15px;
-  text-align: center;
-  background-color: #fafafa; /* Couleur de fond */
+  border: thin solid #999; /* Sets a thin solid border with color #999 */
+  padding: 15px; /* Adds padding of 15px */
+  text-align: center; /* Centers the text */
+  background-color: #fafafa; /* Sets the background color to #fafafa */
 }
 
 footer {
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  padding-bottom: 15px;
-  text-align: center;
+  left: 0; /* Positions the footer to the left edge */
+  bottom: 0; /* Positions the footer at the bottom edge */
+  width: 100%; /* Sets the width to 100% */
+  padding-bottom: 15px; /* Adds bottom padding of 15px */
+  text-align: center; /* Centers the text */
 }
 
 footer ul li {
-  float: left;
-  width: 33%;
-  list-style-type: none;
+  float: left; /* Floats list items to the left */
+  width: 33%; /* Sets the width to 33% */
+  list-style-type: none; /* Removes the default list styling */
 }
 
 footer ul li:first-child {
-  text-align: left;
+  text-align: left; /* Aligns the first list item to the left */
 }
 
 footer ul li:last-child {
-  text-align: right;
+  text-align: right; /* Aligns the last list item to the right */
 }
 
 footer ul li a {
-  text-decoration: none;
+  text-decoration: none; /* Removes the underline from links inside footer list items */
 }
 
 @media (max-width: 1280px) {
   .bulle {
-    margin-top: 50px;
-    text-align: center;
-    border: solid;
-    margin-left: 80px;
-    margin-right: 80px;
-    background: #e5e5e5; /* Couleur de fond */
-    border-color: #ccc; /* Couleur de la bordure */
-    border-radius: 10px;
-    font-size: 1rem; /* Taille de police */
+    margin-top: 50px; /* Adds a top margin of 50px */
+    text-align: center; /* Centers the text */
+    border: solid; /* Applies a solid border */
+    margin-left: 80px; /* Adds a left margin of 80px */
+    margin-right: 80px; /* Adds a right margin of 80px */
+    background: #e5e5e5; /* Sets the background color to #e5e5e5 */
+    border-color: #ccc; /* Sets the border color to #ccc */
+    border-radius: 10px; /* Rounds the corners of the border with a radius of 10px */
+    font-size: 1rem; /* Sets the font size to 1rem */
   }
 
   strong {
-    font-weight: bold; /* Gras */
-    text-decoration: underline;
-    font-size: 1.2rem; /* Taille de police */
+    font-weight: bold; /* Makes the text bold */
+    text-decoration: underline; /* Underlines the text */
+    font-size: 1.2rem; /* Sets the font size to 1.2rem */
   }
 
   h1 {
-    font-size: 2.8rem; /* Taille de police */
-    text-decoration: underline;
+    font-size: 2.8rem; /* Sets the font size to 2.8rem */
+    text-decoration: underline; /* Underlines the text */
   }
 
   h2 {
-    font-size: 1.8rem; /* Taille de police */
+    font-size: 1.8rem; /* Sets the font size to 1.8rem */
   }
 
   #last {
-    visibility: hidden;
+    visibility: hidden; /* Hides the element with id "last" */
   }
 
   .IUT {
-    font-size: 80%;
+    font-size: 80%; /* Sets the font size to 80% */
   }
 
   .justify {
-    text-align: justify;
-    text-align: center;
-    margin-left: 20px;
-    margin-right: 20px;
+    text-align: justify; /* Justifies the text */
+    text-align: center; /* Centers the text */
+    margin-left: 20px; /* Adds a left margin of 20px */
+    margin-right: 20px; /* Adds a right margin of 20px */
   }
 
   img {
-    width: 250px;
+    width: 250px; /* Sets the width of images to 250px */
   }
 
   .nav-title {
-    visibility: hidden;
+    visibility: hidden; /* Hides elements with the class "nav-title" */
   }
 }
