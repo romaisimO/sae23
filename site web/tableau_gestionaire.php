@@ -1,30 +1,38 @@
 <?php
 include 'config.php';
 
-session_start(); // Start the session
+// Démarrer la session // Start the session
+session_start();
 
 if (isset($_SESSION['login'])) {
-    // User is logged in
+    // L'utilisateur est connecté // User is logged in
     $login = $_SESSION['login'];
 } else {
-    // User is not logged in
-    // Redirect to the login page
+    // L'utilisateur n'est pas connecté // User is not logged in
+    // Rediriger vers la page de connexion // Redirect to the login page
     header('Location: connexion.php');
-    exit(); // Make sure to exit after redirect
+    exit(); // Assurez-vous de quitter après la redirection // Make sure to exit after redirect
 }
 
-// Define default number of rows to display
-$num_rows_to_display = 12; // Set default to 12
+// Définir le nombre de lignes à afficher par défaut // Define default number of rows to display
+$num_rows_to_display = 12; // Défaut à 12 // Set default to 12
 $show_all = false;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Get the number of rows to display from the form input
+    // Obtenir le nombre de lignes à afficher à partir du formulaire // Get the number of rows to display from the form input
     $num_rows_to_display = $_POST['num_rows'];
     if ($num_rows_to_display == 'all') {
         $show_all = true;
     } else {
         $num_rows_to_display = (int)$num_rows_to_display;
     }
+}
+
+// Connexion à la base de données en utilisant le style procédural // Connect to the database using procedural style
+$conn = mysqli_connect($servername, $username, $password, $dbname);
+
+if (!$conn) {
+    die("La connexion à la base de données a échoué : " . mysqli_connect_error());
 }
 ?>
 
@@ -58,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <section class="bulle">
         <table id="data-table">
             <?php
-            // SQL query to retrieve measurements for a specific user (filtered by login)
+            // Requête SQL pour récupérer les mesures pour un utilisateur spécifique // SQL query to retrieve measurements for a specific user
             $sql = "SELECT Batiment.NomBat AS Batiment, Salle.NomSalle AS Salle, Capteur.TypeCapteur AS Type, Capteur.Unite, Mesure.Date, Mesure.Horaire, Mesure.Valeur
                     FROM Capteur
                     JOIN Mesure ON Capteur.NomCapteur = Mesure.NomCapteur
@@ -67,16 +75,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     WHERE Batiment.GestioLog = '" . $login . "'
                     ORDER BY Mesure.Date DESC, Mesure.Horaire DESC";
             
-            // Apply the limit if not showing all rows
+            // Appliquer la limite si toutes les lignes ne sont pas affichées // Apply the limit if not showing all rows
             if (!$show_all) {
                 $sql .= " LIMIT $num_rows_to_display";
             }
 
-            $result = $conn->query($sql);
+            $result = mysqli_query($conn, $sql);
 
-            // Generate the HTML table with the retrieved data
-            if ($result->num_rows > 0) {
-                // Table header
+            // Générer le tableau HTML avec les données récupérées // Generate the HTML table with the retrieved data
+            if (mysqli_num_rows($result) > 0) {
+                // En-tête du tableau // Table header
                 echo "<table>";
                 echo "<tr>";
                 echo "<th>Batiment</th>";
@@ -87,25 +95,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 echo "<th>Valeur</th>";
                 echo "</tr>";
 
-                // Table data
-                while ($row = $result->fetch_assoc()) {
+                // Données du tableau // Table data
+                while ($row = mysqli_fetch_assoc($result)) {
                     echo "<tr>";
                     echo "<td>" . $row['Batiment'] . "</td>";
                     echo "<td>" . $row['Salle'] . "</td>";
                     echo "<td>" . $row['Type'] . "</td>";
                     echo "<td>" . $row['Date'] . "</td>";
                     echo "<td>" . $row['Horaire'] . "</td>";
-                    echo "<td>" . $row['Valeur'] . " " . $row['Unite'] . "</td>";  // Append unit to value
+                    echo "<td>" . $row['Valeur'] . " " . $row['Unite'] . "</td>";  // Ajouter l'unité à la valeur // Append unit to value
                     echo "</tr>";
                 }
                 echo "</table>";
             } else {
-                echo "<tr><td colspan='7'>No data available.</td></tr>";
-                // Display a message if no data is found
+                echo "<tr><td colspan='7'>Aucune donnée disponible.</td></tr>";
+                // Afficher un message si aucune donnée n'est trouvée // Display a message if no data is found
             }
 
-            // Close the database connection
-            $conn->close();
+            // Fermer la connexion à la base de données // Close the database connection
+            mysqli_close($conn);
             ?>
         </table>
     </section>
@@ -113,17 +121,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <section class="bulle">
         <h2>Métriques des capteurs</h2>
         <?php
-        include 'config.php';
+        // Se reconnecter à la base de données // Reconnect to the database
+        $conn = mysqli_connect($servername, $username, $password, $dbname);
 
-        // Reconnect to the database
-        $conn = new mysqli($servername, $username, $password, $dbname);
-
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+        // Vérifier la connexion // Check connection
+        if (!$conn) {
+            die("Échec de la connexion : " . mysqli_connect_error());
         }
 
-        // SQL query to calculate metrics for a specific user (filtered by login)
+        // Requête SQL pour calculer les métriques pour un utilisateur spécifique // SQL query to calculate metrics for a specific user
         $sql = "SELECT Capteur.TypeCapteur, Capteur.Unite, AVG(Mesure.Valeur) AS Moyenne, MIN(Mesure.Valeur) AS Minimum, MAX(Mesure.Valeur) AS Maximum
                 FROM Capteur
                 JOIN Mesure ON Capteur.NomCapteur = Mesure.NomCapteur
@@ -132,28 +138,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 WHERE Batiment.GestioLog = '" . $login . "'
                 GROUP BY Capteur.TypeCapteur, Capteur.Unite";
 
+        // Exécuter la requête SQL // Execute the SQL query
+        $result = mysqli_query($conn, $sql);
 
-        // Execute the SQL query
-        $result = $conn->query($sql);
-
-        // Check if any results are returned
-        if ($result->num_rows > 0) {
-            // Loop through the results and display the values
-            while ($row = $result->fetch_assoc()) {
+        // Vérifier si des résultats sont retournés // Check if any results are returned
+        if (mysqli_num_rows($result) > 0) {
+            // Boucle à travers les résultats et afficher les valeurs // Loop through the results and display the values
+            while ($row = mysqli_fetch_assoc($result)) {
                 echo "<p>Type de Capteur: " . $row["TypeCapteur"] . "<br>";
-                echo "Moyenne: " . $row["Moyenne"] . " " . $row["Unite"] . "<br>";  // Append unit to average value
-                echo "Minimum: " . $row["Minimum"] . " " . $row["Unite"] . "<br>";  // Append unit to minimum value
-                echo "Maximum: " . $row["Maximum"] . " " . $row["Unite"] . "</p><br>";  // Append unit to maximum value
+                echo "Moyenne: " . $row["Moyenne"] . " " . $row["Unite"] . "<br>";  // Ajouter l'unité à la valeur moyenne // Append unit to average value
+                echo "Minimum: " . $row["Minimum"] . " " . $row["Unite"] . "<br>";  // Ajouter l'unité à la valeur minimum // Append unit to minimum value
+                echo "Maximum: " . $row["Maximum"] . " " . $row["Unite"] . "</p><br>";  // Ajouter l'unité à la valeur maximum // Append unit to maximum value
             }
         } else {
-            echo "<p>No results found.</p>";
+            echo "<p>Aucun résultat trouvé.</p>";
         }
 
-
-        // Close the database connection
-        $conn->close();
+        // Fermer la connexion à la base de données // Close the database connection
+        mysqli_close($conn);
         ?>
     </section>
-
-    </body>
+</body>
 </html>
