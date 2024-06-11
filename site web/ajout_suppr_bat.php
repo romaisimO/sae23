@@ -102,6 +102,7 @@ $result_salles = mysqli_query($conn, $sql_select_salles);
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <title>Ajouter/Supprimer des bâtiments et salles</title>
@@ -110,6 +111,7 @@ $result_salles = mysqli_query($conn, $sql_select_salles);
     <meta name="description" content="SAE_23" />
     <meta name="keywords" content="HTML, CSS" />
 </head>
+
 <body>
     <header>
         <div class="nav">
@@ -209,11 +211,18 @@ $result_salles = mysqli_query($conn, $sql_select_salles);
         <form method="post" action="">
             <label for="num_rows">Nombre de lignes à afficher:</label>
             <select name="num_rows" id="num_rows">
-                <option value="6" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 6) echo 'selected'; ?>>6</option>
-                <option value="12" <?php if ((isset($_POST['num_rows']) && $_POST['num_rows'] == 12) || !isset($_POST['num_rows'])) echo 'selected'; ?>>12</option>
-                <option value="24" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 24) echo 'selected'; ?>>24</option>
-                <option value="48" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 48) echo 'selected'; ?>>48</option>
-                <option value="all" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 'all') echo 'selected'; ?>>Tout afficher</option>
+                <option value="6" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 6) echo 'selected'; ?>>6
+                </option>
+                <option value="12"
+                    <?php if ((isset($_POST['num_rows']) && $_POST['num_rows'] == 12) || !isset($_POST['num_rows'])) echo 'selected'; ?>>
+                    12</option>
+                <option value="24" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 24) echo 'selected'; ?>>
+                    24</option>
+                <option value="48" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 48) echo 'selected'; ?>>
+                    48</option>
+                <option value="all"
+                    <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 'all') echo 'selected'; ?>>Tout
+                    afficher</option>
             </select>
             <input type="submit" value="Afficher">
         </form>
@@ -240,6 +249,7 @@ $result_salles = mysqli_query($conn, $sql_select_salles);
 
             if ($result && $result->num_rows > 0) {
                 // Display table header row
+                echo "<table>";
                 echo "<tr>";
                 while ($fieldinfo = $result->fetch_field()) {
                     echo "<th>" . $fieldinfo->name . "</th>";
@@ -255,6 +265,7 @@ $result_salles = mysqli_query($conn, $sql_select_salles);
                     echo "<td>" . $row['Capacite'] . "</td>";
                     echo "</tr>";
                 }
+                echo "<table>";
             } else {
                 // Display a message if no data is available
                 echo "<tr><td colspan='4'>No data available.</td></tr>";
@@ -263,4 +274,5 @@ $result_salles = mysqli_query($conn, $sql_select_salles);
         </table>
     </section>
 </body>
+
 </html>

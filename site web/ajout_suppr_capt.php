@@ -78,6 +78,7 @@ $result_capteurs = mysqli_query($conn, $sql_select_capteurs);
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <title>Ajouter/Supprimer des capteurs</title>
@@ -89,8 +90,9 @@ $result_capteurs = mysqli_query($conn, $sql_select_capteurs);
     <link rel="stylesheet" href="./styles/rwd.css" />
     <link rel="stylesheet" href="./styles/Hamburger.css" />
 </head>
+
 <body>
-<header>
+    <header>
         <div class="nav">
             <input type="checkbox" id="nav-check">
             <div class="nav-btn">
@@ -110,14 +112,14 @@ $result_capteurs = mysqli_query($conn, $sql_select_capteurs);
             </nav>
         </div>
     </header>
-    
+
     <!-- Display the title -->
     <h1>Ajouter/Supprimer des capteurs</h1>
 
     <!-- Section for adding a sensor -->
     <section class="bulle">
         <h2>Ajouter un capteur</h2>
-        
+
         <!-- Form for adding a sensor -->
         <form action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
             <!-- Input fields for sensor details -->
@@ -166,11 +168,18 @@ $result_capteurs = mysqli_query($conn, $sql_select_capteurs);
         <form method="post" action="">
             <label for="num_rows">Nombre de lignes à afficher:</label>
             <select name="num_rows" id="num_rows">
-                <option value="6" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 6) echo 'selected'; ?>>6</option>
-                <option value="12" <?php if ((isset($_POST['num_rows']) && $_POST['num_rows'] == 12) || !isset($_POST['num_rows'])) echo 'selected'; ?>>12</option>
-                <option value="24" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 24) echo 'selected'; ?>>24</option>
-                <option value="48" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 48) echo 'selected'; ?>>48</option>
-                <option value="all" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 'all') echo 'selected'; ?>>Tout afficher</option>
+                <option value="6" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 6) echo 'selected'; ?>>6
+                </option>
+                <option value="12"
+                    <?php if ((isset($_POST['num_rows']) && $_POST['num_rows'] == 12) || !isset($_POST['num_rows'])) echo 'selected'; ?>>
+                    12</option>
+                <option value="24" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 24) echo 'selected'; ?>>
+                    24</option>
+                <option value="48" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 48) echo 'selected'; ?>>
+                    48</option>
+                <option value="all"
+                    <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 'all') echo 'selected'; ?>>Tout
+                    afficher</option>
             </select>
             <input type="submit" value="Afficher">
         </form>
@@ -199,14 +208,21 @@ $result_capteurs = mysqli_query($conn, $sql_select_capteurs);
 
             if ($result->num_rows > 0) {
                 // Display table header row
+                echo "<table>";
                 echo "<tr>";
-                while ($fieldinfo = $result->fetch_field()) {
-                    echo "<th>" . $fieldinfo->name . "</th>";
-                }
+                echo "<tr>";
+                echo "<th>Batiment</th>";
+                echo "<th>Salle</th>";
+                echo "<th>Type</th>";
+                echo "<th>Date</th>";
+                echo "<th>Horaire</th>";
+                echo "<th>Valeur</th>";
                 echo "</tr>";
+               
 
                 // Display table rows with sensor data
                 while ($row = $result->fetch_assoc()) {
+                    
                     echo "<tr>";
                     echo "<td>" . $row['Batiment'] . "</td>";
                     echo "<td>" . $row['Salle'] . "</td>";
@@ -216,6 +232,7 @@ $result_capteurs = mysqli_query($conn, $sql_select_capteurs);
                     echo "<td>" . $row['Valeur'] . " " . $row['Unite'] . "</td>";  // Append unit to value
                     echo "</tr>";
                 }
+                echo "<table>";
             } else {
                 // Display a message if no data is available
                 echo "<tr><td colspan='7'>No data available.</td></tr>";
@@ -225,4 +242,5 @@ $result_capteurs = mysqli_query($conn, $sql_select_capteurs);
     </section>
 
 </body>
+
 </html>
