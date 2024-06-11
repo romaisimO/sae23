@@ -1,4 +1,41 @@
-<?php
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <title>SAE 23</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="author" content="DSM" />
+    <meta name="description" content="SAE 23" />
+    <meta name="keywords" content="HTML, CSS, Portfolio" />
+    <link rel="stylesheet" href="./styles/style.css" />
+    <link rel="stylesheet" href="./styles/rwd.css" />
+    <link rel="stylesheet" href="./styles/style2.css" />
+</head>
+
+<body>
+    <header>
+        <div class="nav">
+            <input type="checkbox" id="nav-check" />
+            <div class="nav-btn">
+                <label for="nav-check">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </label>
+            </div>
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="index.html" class="first">Accueil</a></li>
+                    <li><a href="consultation.php" class="first">Consultation</a></li>
+                    <li><a href="connexion.php">Connexion</a></li>
+                    <li><a href="gestion_de_projet.html">Gestion de projet</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <?php
 include 'config.php';
 
 // Démarrer la session // Start the session
@@ -36,36 +73,45 @@ if (!$conn) {
 }
 ?>
 
-<!DOCTYPE html>
-<html>
-<head>
-  <title>SAE 23</title>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="author" content="DSM" />
-  <meta name="description" content="SAE 23" />
-  <meta name="keywords" content="HTML, CSS, PHP" />
-</head>
-<body>
-    <h1>Données des capteurs</h1>
+    <!DOCTYPE html>
+    <html>
 
-    <section class="bulle">
-        <form method="post" action="">
-            <label for="num_rows">Nombre de lignes à afficher:</label>
-            <select name="num_rows" id="num_rows">
-                <option value="6" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 6) echo 'selected'; ?>>6</option>
-                <option value="12" <?php if ((isset($_POST['num_rows']) && $_POST['num_rows'] == 12) || !isset($_POST['num_rows'])) echo 'selected'; ?>>12</option>
-                <option value="24" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 24) echo 'selected'; ?>>24</option>
-                <option value="48" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 48) echo 'selected'; ?>>48</option>
-                <option value="all" <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 'all') echo 'selected'; ?>>Tout afficher</option>
-            </select>
-            <input type="submit" value="Afficher">
-        </form>
-    </section>
+    <head>
+        <title>SAE 23</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <meta name="author" content="DSM" />
+        <meta name="description" content="SAE 23" />
+        <meta name="keywords" content="HTML, CSS, PHP" />
+    </head>
 
-    <section class="bulle">
-        <table id="data-table">
-            <?php
+    <body>
+        <h1>Données des capteurs</h1>
+
+        <section class="bulle">
+            <form method="post" action="">
+                <label for="num_rows">Nombre de lignes à afficher:</label>
+                <select name="num_rows" id="num_rows">
+                    <option value="6"
+                        <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 6) echo 'selected'; ?>>6</option>
+                    <option value="12"
+                        <?php if ((isset($_POST['num_rows']) && $_POST['num_rows'] == 12) || !isset($_POST['num_rows'])) echo 'selected'; ?>>
+                        12</option>
+                    <option value="24"
+                        <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 24) echo 'selected'; ?>>24</option>
+                    <option value="48"
+                        <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 48) echo 'selected'; ?>>48</option>
+                    <option value="all"
+                        <?php if (isset($_POST['num_rows']) && $_POST['num_rows'] == 'all') echo 'selected'; ?>>Tout
+                        afficher</option>
+                </select>
+                <input type="submit" value="Afficher">
+            </form>
+        </section>
+
+        <section class="bulle">
+            <table id="data-table">
+                <?php
             // Requête SQL pour récupérer les mesures pour un utilisateur spécifique // SQL query to retrieve measurements for a specific user
             $sql = "SELECT Batiment.NomBat AS Batiment, Salle.NomSalle AS Salle, Capteur.TypeCapteur AS Type, Capteur.Unite, Mesure.Date, Mesure.Horaire, Mesure.Valeur
                     FROM Capteur
@@ -115,12 +161,12 @@ if (!$conn) {
             // Fermer la connexion à la base de données // Close the database connection
             mysqli_close($conn);
             ?>
-        </table>
-    </section>
+            </table>
+        </section>
 
-    <section class="bulle">
-        <h2>Métriques des capteurs</h2>
-        <?php
+        <section class="bulle">
+            <h2>Métriques des capteurs</h2>
+            <?php
         // Se reconnecter à la base de données // Reconnect to the database
         $conn = mysqli_connect($servername, $username, $password, $dbname);
 
@@ -157,6 +203,7 @@ if (!$conn) {
         // Fermer la connexion à la base de données // Close the database connection
         mysqli_close($conn);
         ?>
-    </section>
-</body>
-</html>
+        </section>
+    </body>
+
+    </html>
