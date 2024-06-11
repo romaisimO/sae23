@@ -16,20 +16,18 @@ nav ul li a {
   text-align: center; /* Centers the text inside links */
   padding: 15px; /* Adds padding of 15px */
   text-decoration: none; /* Removes underline from links */
+  color: white; /* Sets text color to white */
+  transition: background-color 0.5s, color 0.5s; /* Adds a transition effect for background color and text color */
 }
 
 nav ul li a:hover {
-  display: block; /* Ensures links are displayed as block elements */
-  text-align: center; /* Centers the text inside links */
-  padding: 15px; /* Adds padding of 15px */
-  text-decoration: none; /* Removes underline from links */
-  transition: 0.5s; /* Adds a transition effect of 0.5 seconds */
   background-color: rgba(
-    0,
-    0,
-    0,
+    255,
+    255,
+    255,
     0.3
   ); /* Sets background color with transparency on hover */
+  color: #000; /* Sets text color to black on hover */
 }
 
 .nav {
