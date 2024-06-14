@@ -137,10 +137,12 @@ $result_sensors = mysqli_query($conn, $sql_sensors);
                 }
                 ?>
                 </select><br>
-
+                
                 <label for="start_hour">Sélectionner l'heure de début:</label>
                 <input type="time" id="start_hour" name="start_hour"
-                    value="<?php echo htmlspecialchars($start_hour); ?>"><br>
+                    value="<?php 
+                    // htmlspecialchars permet transformer les carcatères spéciaux en caratère html
+                    echo htmlspecialchars($start_hour); ?>"><br>
 
                 <label for="end_hour">Sélectionner l'heure de fin:</label>
                 <input type="time" id="end_hour" name="end_hour" value="<?php echo htmlspecialchars($end_hour); ?>"><br>
