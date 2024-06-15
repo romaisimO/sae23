@@ -1,26 +1,26 @@
 <?php
 include 'config.php';
 
-session_start(); // Démarrer la session // Start the session
+session_start(); // Start the session
 
 if (isset($_SESSION['login'])) {
-    // L'utilisateur est connecté // User is logged in
+     // User is logged in
     $login = $_SESSION['login'];
 } else {
-    // L'utilisateur n'est pas connecté // User is not logged in
-    // Rediriger vers la page de connexion // Redirect to the login page
+    // User is not logged in
+    // Redirect to the login page
     header('Location: connexion.php');
-    exit(); // S'assurer de sortir après la redirection // Make sure to exit after redirect
+    exit(); // Make sure to exit after redirect
 }
 
-// Se connecter à la base de données // Connect to the database
+// Connect to the database
 $conn = mysqli_connect($servername, $username, $password, $dbname);
 if (!$conn) {
-    // Afficher un message d'erreur si la connexion à la base de données échoue // Display an error message if the database connection fails
+    // Display an error message if the database connection fails
     die("La connexion à la base de données a échoué : " . mysqli_connect_error());
 }
 
-// Gestion du formulaire d'ajout de bâtiment // Handling the building addition form
+// Handling the building addition form
 if (isset($_POST['ajouter_batiment'])) {
     $BatID = $_POST['BatID'];
     $NomBat = $_POST['NomBat'];
@@ -35,17 +35,17 @@ if (isset($_POST['ajouter_batiment'])) {
     }
 }
 
-// Gestion du formulaire de suppression de bâtiment // Handling the building deletion form
+// Handling the building deletion form
 if (isset($_POST['supprimer_batiment'])) {
     $BatID = $_POST['BatID'];
 
-    // Vérifier si le bâtiment contient des capteurs avant de le supprimer // Check if the building contains sensors before deleting it
+   // Check if the building contains sensors before deleting it
     $sql_check_capteurs = "SELECT * FROM Capteur WHERE NomSalle IN (SELECT NomSalle FROM Salle WHERE BatID = '$BatID')";
     $result_check_capteurs = mysqli_query($conn, $sql_check_capteurs);
     if (mysqli_num_rows($result_check_capteurs) > 0) {
         echo "Le bâtiment avec l'ID $BatID contient des capteurs. Veuillez supprimer d'abord les capteurs."; // The building with ID $BatID contains sensors. Please delete the sensors first.
     } else {
-        // Supprimer le bâtiment // Delete the building
+        // Delete the building
         $sql_delete_batiment = "DELETE FROM Batiment WHERE BatID = '$BatID'";
         if (mysqli_query($conn, $sql_delete_batiment)) {
             echo "Le bâtiment a été supprimé avec succès."; // The building was deleted successfully.
@@ -55,7 +55,7 @@ if (isset($_POST['supprimer_batiment'])) {
     }
 }
 
-// Gestion du formulaire d'ajout de salle // Handling the room addition form
+// Handling the room addition form
 if (isset($_POST['ajouter_salle'])) {
     $NomSalle = $_POST['NomSalle'];
     $TypeSalle = $_POST['TypeSalle'];
@@ -70,17 +70,17 @@ if (isset($_POST['ajouter_salle'])) {
     }
 }
 
-// Gestion du formulaire de suppression de salle // Handling the room deletion form
+// Handling the room deletion form
 if (isset($_POST['supprimer_salle'])) {
     $NomSalle = $_POST['NomSalle'];
 
-    // Vérifier si la salle contient des capteurs avant de la supprimer // Check if the room contains sensors before deleting it
+   // Check if the room contains sensors before deleting it
     $sql_check_capteurs = "SELECT * FROM Capteur WHERE NomSalle = '$NomSalle'";
     $result_check_capteurs = mysqli_query($conn, $sql_check_capteurs);
     if (mysqli_num_rows($result_check_capteurs) > 0) {
         echo "La salle avec le nom $NomSalle contient des capteurs. Veuillez supprimer d'abord les capteurs."; // The room with the name $NomSalle contains sensors. Please delete the sensors first.
     } else {
-        // Supprimer la salle // Delete the room
+        // Delete the room
         $sql_delete_salle = "DELETE FROM Salle WHERE NomSalle = '$NomSalle'";
         if (mysqli_query($conn, $sql_delete_salle)) {
             echo "La salle a été supprimée avec succès."; // The room was deleted successfully.
@@ -90,11 +90,11 @@ if (isset($_POST['supprimer_salle'])) {
     }
 }
 
-// Récupérer la liste des bâtiments pour la sélection // Retrieve the list of buildings for selection
+// Retrieve the list of buildings for selection
 $sql_select_batiments = "SELECT BatID, NomBat FROM Batiment";
 $result_batiments = mysqli_query($conn, $sql_select_batiments);
 
-// Récupérer la liste des salles pour la sélection // Retrieve the list of rooms for selection
+// Retrieve the list of rooms for selection
 $sql_select_salles = "SELECT NomSalle, TypeSalle, Capacite, BatID FROM Salle";
 $result_salles = mysqli_query($conn, $sql_select_salles);
 
@@ -232,13 +232,13 @@ $result_salles = mysqli_query($conn, $sql_select_salles);
     </section>
 
     <section class="bulle">
-        <!-- Afficher les données des salles dans un tableau // Display the room data in a table -->
+        <!-- Display the room data in a table -->
         <table id="data-table">
             <?php
-            // Déterminer le nombre de lignes à afficher // Determine the number of rows to display
+            // Determine the number of rows to display
             $num_rows = isset($_POST['num_rows']) ? $_POST['num_rows'] : 12;
 
-            // Sélectionner les données des salles à partir de plusieurs tables et les afficher sous forme de tableau // Select room data from multiple tables and display it in a table format
+            // Select room data from multiple tables and display it in a table format
             $sql = "SELECT Batiment.NomBat AS Batiment, Salle.NomSalle AS Salle, Salle.TypeSalle AS Type, Salle.Capacite
                     FROM Salle
                     JOIN Batiment ON Salle.BatID = Batiment.BatID
@@ -251,7 +251,7 @@ $result_salles = mysqli_query($conn, $sql_select_salles);
             $result = mysqli_query($conn, $sql);
 
             if ($result && mysqli_num_rows($result) > 0) {
-                // Afficher la ligne d'en-tête du tableau // Display table header row
+                // Display table header row
                 echo "<table>";
                 echo "<tr>";
                 while ($fieldinfo = mysqli_fetch_field($result)) {
@@ -259,7 +259,7 @@ $result_salles = mysqli_query($conn, $sql_select_salles);
                 }
                 echo "</tr>";
 
-                // Afficher les lignes du tableau avec les données des salles // Display table rows with room data
+                // Display table rows with room data
                 while ($row = mysqli_fetch_assoc($result)) {
                     echo "<tr>";
                     echo "<td>" . $row['Batiment'] . "</td>";
@@ -270,7 +270,7 @@ $result_salles = mysqli_query($conn, $sql_select_salles);
                 }
                 echo "</table>";
             } else {
-                // Afficher un message si aucune donnée n'est disponible // Display a message if no data is available
+                // Display a message if no data is available
                 echo "<tr><td colspan='4'>No data available.</td></tr>";
             }
             ?>
